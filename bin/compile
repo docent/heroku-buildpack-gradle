@@ -58,6 +58,11 @@ if [ ! -d "$GRADLE_PROJECT_CACHE_DIR" ]; then
   ln -s "$CACHE_DIR/.gradle" "$GRADLE_PROJECT_CACHE_DIR"
 fi
 
+export GRADLE_PROJECT_BUILD_DIR="${GRADLE_PROJECT_BUILD_DIR:-$BUILD_DIR/build}"
+if [ ! -d "$GRADLE_PROJECT_BUILD_DIR" ]; then
+  ln -s "$CACHE_DIR/build" "$GRADLE_PROJECT_BUILD_DIR"
+fi
+
 if [ ! -f $BUILD_DIR/gradlew ] ; then
   mcount "wrapperless"
   echo "-----> Installing Gradle Wrapper..."
@@ -91,6 +96,10 @@ fi
 
 if [[ -L "$GRADLE_PROJECT_CACHE_DIR" && -d "$GRADLE_PROJECT_CACHE_DIR" ]]; then
   rm -f "$GRADLE_PROJECT_CACHE_DIR"
+fi
+
+if [[ -L "$GRADLE_PROJECT_BUILD_DIR" && -d "$GRADLE_PROJECT_BUILD_DIR" ]]; then
+  rm -f "$GRADLE_PROJECT_BUILD_DIR"
 fi
 
 mtime "build.time" "${start}"
