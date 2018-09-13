@@ -51,6 +51,7 @@ install_jdk ${BUILD_DIR}
 export GRADLE_OPTS=${GRADLE_OPTS-"-Dorg.gradle.daemon=false"}
 
 mkdir -p "$CACHE_DIR/.gradle"
+mkdir -p "$CACHE_DIR/build"
 
 export GRADLE_USER_HOME=${GRADLE_USER_HOME:-$CACHE_DIR/.gradle}
 export GRADLE_PROJECT_CACHE_DIR="${GRADLE_PROJECT_CACHE_DIR:-$BUILD_DIR/.gradle}"
