@@ -55,6 +55,13 @@ export GRADLE_USER_HOME=${GRADLE_USER_HOME:-$CACHE_DIR/.gradle}
 
 create_project_cache_symlink "$CACHE_DIR" "$BUILD_DIR"
 
+if [[ ! -z "$GRADLE_ADDITIONAL_CACHE_DIRS" ]]; then
+  IFS=: read -ra dirs <<< "$GRADLE_ADDITIONAL_CACHE_DIRS"
+   for d in "${dirs[@]}"; do
+       create_additional_dir_symlink "$CACHE_DIR" "$BUILD_DIR" "$d"
+   done
+fi
+
 if [ ! -f $BUILD_DIR/gradlew ] ; then
   mcount "wrapperless"
   echo "-----> Installing Gradle Wrapper..."

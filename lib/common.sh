@@ -61,6 +61,17 @@ create_project_cache_symlink() {
   fi
 }
 
+create_additional_dir_symlink() {
+   local buildpackCacheDir="${1:?}/.gradle-additional-dirs/${3:?}"
+   local additionalDirLink="${2:?}/${3:?}"
+   if [ ! -d "$additionalDirLink" ]; then
+     mkdir -p "$buildpackCacheDir"
+     echo "Linking $buildpackCacheDir to $additionalDirLink"
+     ln -s "$buildpackCacheDir" "$additionalDirLink"
+     trap "rm -f $additionalDirLink" EXIT
+   fi
+}
+
 # sed -l basically makes sed replace and buffer through stdin to stdout
 # so you get updates while the command runs and dont wait for the end
 # e.g. sbt stage | indent
